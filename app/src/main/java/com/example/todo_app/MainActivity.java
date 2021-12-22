@@ -4,7 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    Repository repository;
+    List<Todo> todos;
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
