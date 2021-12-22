@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Repository {
+
     private  static Repository sInstance;
 
     private ArrayList<Todo> todos;
@@ -50,6 +51,10 @@ public class Repository {
             todos.remove(todo);
     }
 
+    public void addTodo(Todo todo){
+        todos.add(todo);
+    }
+
     public Todo update(Todo todo){
         Todo newTodo = getTodoById(todo.getId());
         newTodo.setTitle(todo.getTitle());
@@ -58,4 +63,5 @@ public class Repository {
         newTodo.setUpdatedAt(new Date());
         return newTodo;
     }
+
 }
