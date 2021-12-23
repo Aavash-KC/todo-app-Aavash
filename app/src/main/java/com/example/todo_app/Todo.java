@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Todo {
-
     private UUID id;
     private String title;
     private String description;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,11 @@ public class AddTodoFragment extends Fragment {
     private Repository repository;
 
 
+    public static AddTodoFragment newInstance(){
+        AddTodoFragment fragment = new AddTodoFragment();
+        return  fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +41,7 @@ public class AddTodoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // Inflate the layout for this fragment
+
         View view  = inflater.inflate(R.layout.fragment_add_todo, container, false);
         titleEditText = view.findViewById(R.id.title_et);
         descriptionEditText = view.findViewById(R.id.description_et);
@@ -59,6 +64,7 @@ public class AddTodoFragment extends Fragment {
                 newTodo.setPriority(1);
                 newTodo.setDescription(description);
                 repository.addTodo(newTodo);
+
                 Log.d("ADDTODOFRAGMENT", ""+repository.getAllTodos().size());
 
             }
