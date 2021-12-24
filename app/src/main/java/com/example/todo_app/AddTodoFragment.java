@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +27,7 @@ public class AddTodoFragment extends Fragment {
     private EditText titleEditText;
     private EditText descriptionEditText;
     private Button addButton;
-    private Repository repository;
+    private MainViewModel viewModel;
 
 
     public static AddTodoFragment newInstance(){
@@ -53,19 +56,20 @@ public class AddTodoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        repository = Repository.getInstance(getActivity().getApplicationContext());
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Todo newTodo = new Todo();
                 String title = titleEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
-                newTodo.setTitle(title);
-                newTodo.setPriority(1);
-                newTodo.setDescription(description);
-                repository.addTodo(newTodo);
 
-                Log.d("ADDTODOFRAGMENT", ""+repository.getAllTodos().size());
+                Todo newTodo = new Todo(title, description, 1, new Date());
+
+                viewModel.insert(newTodo);
+
+                //FragmentManager fm = getParentFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
 
             }
         });
