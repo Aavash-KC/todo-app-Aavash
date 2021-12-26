@@ -37,7 +37,7 @@ public class MainViewModel extends AndroidViewModel {
         repository.update(todo);
     }
 
-    public void delete (Todo todo){
+    public  void delete (Todo todo){
         repository.delete(todo);
     }
 

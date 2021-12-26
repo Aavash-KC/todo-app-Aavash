@@ -21,8 +21,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
 
     private final List<Todo> data;
 
-    public TodoAdapter(List<Todo> todos) {
+    private final OnTodoClickListener todoClickListener;
+
+    public TodoAdapter(List<Todo> todos, OnTodoClickListener todoClickListener) {
         this.data = todos;
+        this.todoClickListener = todoClickListener;
     }
 
 
@@ -43,8 +46,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Todo todo = data.get(position);
+        String formatted = Utils.formatDate(todo.getDueDate());
 
         holder.titleTextView.setText(todo.getTitle());
+        holder.todayChip.setText(formatted);
 
     }
 
@@ -56,17 +61,37 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public AppCompatTextView titleTextView;
         public AppCompatRadioButton radioButton;
         public Chip todayChip;
 
+        OnTodoClickListener onTodoClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.todo_radio_button);
             titleTextView = itemView.findViewById(R.id.todo_row_todo);
             todayChip = itemView.findViewById(R.id.todo_row_chip);
+            this.onTodoClickListener = todoClickListener;
+
+            itemView.setOnClickListener(this);
+
+            radioButton.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            int id = view.getId();
+            Todo currTodo= data.get(getAdapterPosition());
+            if (id == R.id.todo_row_layout){
+                onTodoClickListener.onTodoClick(currTodo);
+            }
+            else if(id == R.id.todo_radio_button){
+                onTodoClickListener.onTodoRadioButtonClick(currTodo);
+            }
+
         }
     }
 }

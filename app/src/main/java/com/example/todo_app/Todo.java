@@ -17,26 +17,35 @@ public class Todo {
     private String title;
     private String description;
     private Priority priority;
+    @ColumnInfo(name="due_date")
+    private Date dueDate;
     @ColumnInfo(name = "updated_at")
     private Date updatedAt;
+    private boolean isDone;
 
 
 
-    public Todo(int id, String title, String description, Priority priority, Date updatedAt) {
+    public Todo(int id, String title, String description, Priority priority,Date dueDate ,Date updatedAt,boolean isDone) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.dueDate = dueDate;
         this.updatedAt = updatedAt;
+        this.isDone =isDone;
     }
 
 
+
+
     @Ignore
-    public Todo(String title, String description, Priority priority, Date updatedAt) {
+    public Todo(String title, String description, Priority priority,Date dueDate, Date updatedAt,boolean isDone) {
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.dueDate =dueDate;
         this.updatedAt = updatedAt;
+        this.isDone =isDone;
     }
 
 
@@ -75,6 +84,13 @@ public class Todo {
         this.priority = priority;
     }
 
+    public Date getDueDate() {
+        return dueDate;
+    }
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -83,6 +99,15 @@ public class Todo {
         this.updatedAt = updatedAt;
     }
 
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
+
     @Override
     public String toString() {
         return "Todo{" +
@@ -90,9 +115,9 @@ public class Todo {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", priority=" + priority +
+                ", dueDate=" + dueDate +
                 ", updatedAt=" + updatedAt +
+                ", isDone=" + isDone +
                 '}';
     }
-
-
 }

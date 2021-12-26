@@ -27,15 +27,16 @@ import java.util.List;
  * Use the {@link TodosListFragment#} factory method to
  * create an instance of this fragment.
  */
-public class TodosListFragment extends Fragment {
+public class TodosListFragment extends Fragment implements OnTodoClickListener{
 
 
     private RecyclerView recyclerView;
     private TodoAdapter adapter;
     private MainViewModel viewModel;
-   // private List<Todo> todos;
+    //private List<Todo> todos;
     private FloatingActionButton fabButton;
     private static final String TAG="Item";
+    private SharedViewModel sharedViewModel;
 
 
     @Override
@@ -65,6 +66,8 @@ public class TodosListFragment extends Fragment {
         //viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
         fabButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,9 +80,8 @@ public class TodosListFragment extends Fragment {
         });
 
         viewModel.getAllTodos().observe(getViewLifecycleOwner(), todos ->  {
-            adapter = new TodoAdapter(todos);
+            adapter = new TodoAdapter(todos,this);
             recyclerView.setAdapter(adapter);
-
 
         });
 
@@ -89,4 +91,20 @@ public class TodosListFragment extends Fragment {
     }
 
 
+    @Override
+    public void onTodoClick(Todo todo) {
+        Log.d("item","onTodoClick: "+ todo.getTitle());
+        sharedViewModel.selectItem(todo);
+        AddTodoFragment fragment = AddTodoFragment.newInstance();
+        FragmentManager fm  = getParentFragmentManager();
+        fm.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void onTodoRadioButtonClick(Todo todo) {
+        Log.d("item","onTodoClick: "+ todo.getTitle());
+        viewModel.delete(todo);
+        adapter.notifyDataSetChanged();
+    }
 }
