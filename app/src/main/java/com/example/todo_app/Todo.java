@@ -16,13 +16,13 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    private int priority;
+    private Priority priority;
     @ColumnInfo(name = "updated_at")
     private Date updatedAt;
 
 
 
-    public Todo(int id, String title, String description, int priority, Date updatedAt) {
+    public Todo(int id, String title, String description, Priority priority, Date updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -32,7 +32,7 @@ public class Todo {
 
 
     @Ignore
-    public Todo(String title, String description, int priority, Date updatedAt) {
+    public Todo(String title, String description, Priority priority, Date updatedAt) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -67,11 +67,11 @@ public class Todo {
         this.description = description;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 

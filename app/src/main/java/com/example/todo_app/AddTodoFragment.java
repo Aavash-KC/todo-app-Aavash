@@ -63,7 +63,7 @@ public class AddTodoFragment extends Fragment {
                 String title = titleEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
 
-                Todo newTodo = new Todo(title, description, 1, new Date());
+                Todo newTodo = new Todo(title, description, Priority.HIGH, new Date());
 
                 viewModel.insert(newTodo);
 
