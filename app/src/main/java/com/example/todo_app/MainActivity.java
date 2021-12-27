@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Todo Application created by Aavash K.C.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item3:
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/aavash.kc.50"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/aavash19/"));
                 startActivity(intent);
                 return true;
 
