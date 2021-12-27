@@ -23,6 +23,7 @@ import android.widget.RadioGroup;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +42,9 @@ public class AddTodoFragment extends Fragment implements    View.OnClickListener
     private RadioGroup priorityRadioGroup;
     private RadioButton selectedRadioButton;
     private int selectedButtonId;
+    private boolean isEdit;
+
+    private Priority priority;
 
     private ImageButton addButton;
     private CalendarView calendarView;
@@ -96,9 +100,12 @@ public class AddTodoFragment extends Fragment implements    View.OnClickListener
         super.onResume();
         if(sharedViewModel.getSelectedItem().getValue() != null){
             Todo todo = sharedViewModel.getSelectedItem().getValue();
-            Log.d("my","connect :"+todo.getTitle());
+            isEdit = sharedViewModel.getIsEdit();
+
             titleEditText.setText(todo.getTitle());
             descriptionEditText.setText(todo.getDescription());
+            priority = todo.getPriority();
+
         }
     }
 
@@ -114,12 +121,32 @@ public class AddTodoFragment extends Fragment implements    View.OnClickListener
             public void onClick(View v) {
                 String title = titleEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
-                if(!TextUtils.isEmpty(title) && dueDate != null){
-                    Todo newTodo = new Todo(title, description, Priority.HIGH,dueDate, new Date(),false);
-                    viewModel.insert(newTodo);
+                if(!TextUtils.isEmpty(title) && dueDate != null && priority!=null){
+                    Todo newTodo = new Todo(title, description, priority,dueDate, Calendar.getInstance().getTime(),false);
+                    if(isEdit == true){
+                        Todo updateTodo = sharedViewModel.getSelectedItem().getValue();
+                        updateTodo.setTitle(title);
+                        updateTodo.setDescription(description);
+                        updateTodo.setUpdatedAt(Calendar.getInstance().getTime());
+                        updateTodo.setDueDate(dueDate);
+                        updateTodo.setPriority(priority);
+                        viewModel.update(updateTodo);
+
+                        sharedViewModel.isEdit(false);
+                        isEdit=false;
+                    }
+                    else {
+                        viewModel.insert(newTodo);
+                    }
+                    titleEditText.setText("");
+                    descriptionEditText.setText("");
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
                 }
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStack();
+                else{
+                    Snackbar.make(addButton,R.string.empty_field,Snackbar.LENGTH_LONG).show();
+                }
+
 
             }
         });
@@ -128,6 +155,7 @@ public class AddTodoFragment extends Fragment implements    View.OnClickListener
             @Override
             public void onClick(View view){
                 calenderGroup.setVisibility(calenderGroup.getVisibility() == View.GONE? View.VISIBLE:View.GONE);
+                Utils.hideSoftKeyboard(view);
             }
         });
 
@@ -137,6 +165,37 @@ public class AddTodoFragment extends Fragment implements    View.OnClickListener
                 calendar.clear();
                 calendar.set(year,month,dayOfMonth);
                 dueDate = calendar.getTime();
+            }
+        });
+
+        priorityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.hideSoftKeyboard(view);
+                priorityRadioGroup.setVisibility(priorityRadioGroup.getVisibility()==View.GONE? View.VISIBLE:View.GONE);
+                priorityRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        if(priorityRadioGroup.getVisibility()==View.VISIBLE){
+                            selectedButtonId = checkedId;
+                            selectedRadioButton = view.findViewById(selectedButtonId);
+                            if(selectedRadioButton.getId()== R.id.radioButton_high){
+                                priority = Priority.HIGH;
+                            }
+                            else if(selectedRadioButton.getId()== R.id.radioButton_med){
+                                priority = Priority.MEDIUM;
+                            }
+                            else if(selectedRadioButton.getId()== R.id.radioButton_low){
+                                priority = Priority.LOW;
+                            }
+                            else {
+                                priority = Priority.LOW;
+                            }
+                        }else{
+                            priority = Priority.LOW;
+                        }
+                    }
+                });
             }
         });
 

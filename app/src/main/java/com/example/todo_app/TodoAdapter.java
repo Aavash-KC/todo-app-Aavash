@@ -1,6 +1,8 @@
 package com.example.todo_app;
 
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +50,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
         Todo todo = data.get(position);
         String formatted = Utils.formatDate(todo.getDueDate());
 
+        ColorStateList colorStateList= new ColorStateList(new int[][]{
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_enabled}
+        },new int[]{
+                Color.LTGRAY, //Disabled
+                Utils.priorityColor(todo)
+        });
+
         holder.titleTextView.setText(todo.getTitle());
         holder.todayChip.setText(formatted);
+        holder.todayChip.setTextColor(Utils.priorityColor(todo));
+        holder.todayChip.setChipIconTint(colorStateList);
+        holder.radioButton.setButtonTintList(colorStateList);
 
     }
 

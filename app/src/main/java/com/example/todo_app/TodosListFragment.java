@@ -66,12 +66,14 @@ public class TodosListFragment extends Fragment implements OnTodoClickListener{
         //viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         fabButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                sharedViewModel.selectItem(null);
+                sharedViewModel.isEdit(false);
                 AddTodoFragment fragment = AddTodoFragment.newInstance();
                 FragmentManager fm  = getParentFragmentManager();
                 fm.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
@@ -95,6 +97,7 @@ public class TodosListFragment extends Fragment implements OnTodoClickListener{
     public void onTodoClick(Todo todo) {
         Log.d("item","onTodoClick: "+ todo.getTitle());
         sharedViewModel.selectItem(todo);
+        sharedViewModel.isEdit(true);
         AddTodoFragment fragment = AddTodoFragment.newInstance();
         FragmentManager fm  = getParentFragmentManager();
         fm.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
@@ -104,7 +107,9 @@ public class TodosListFragment extends Fragment implements OnTodoClickListener{
     @Override
     public void onTodoRadioButtonClick(Todo todo) {
         Log.d("item","onTodoClick: "+ todo.getTitle());
+
         viewModel.delete(todo);
+
         adapter.notifyDataSetChanged();
     }
 }
