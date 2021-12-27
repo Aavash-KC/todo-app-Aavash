@@ -1,5 +1,7 @@
 package com.example.todo_app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -107,8 +109,20 @@ public class TodosListFragment extends Fragment implements OnTodoClickListener{
     @Override
     public void onTodoRadioButtonClick(Todo todo) {
         Log.d("item","onTodoClick: "+ todo.getTitle());
-
-        viewModel.delete(todo);
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Delete")
+                .setMessage("You have Completed this task. Do you want to delete it?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.delete(todo);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
 
         adapter.notifyDataSetChanged();
     }

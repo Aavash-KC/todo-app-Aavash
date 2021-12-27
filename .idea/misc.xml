@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.2703125" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/drawable/ic_icon.xml" value="0.2703125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/layout/fragment_add_todo.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/layout/fragment_delete_todo.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/layout/fragment_todo_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/layout/list_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/todo-app-Aavash/app/src/main/res/menu/todo_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

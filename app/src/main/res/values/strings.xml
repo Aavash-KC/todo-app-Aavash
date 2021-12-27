@@ -22,6 +22,9 @@
     <string name="radio_high">High</string>
     <string name="radio_med">Medium</string>
     <string name="radio_low">Low</string>
+    <string name="Yes">Yes</string>
+<string name="cancel">cancel</string>
+    <string name="dialog_delete_todo">Have you completed this task? Are you sure you want to delete?</string>
     <string name="image_description">button image</string>
     <string name="add_todos">Add a Todo...</string>
 </resources>
